@@ -81,6 +81,7 @@
     "gulp-replace": "1.0.0",
     "jest": "26.0.1",
     "node-sass": "4.14.1",
+    "ot": "git+https://github.com/jritts/ot.js.git",
     "prismjs": "1.20.0",
     "raf": "3.4.1",
     "react": "16.13.1",

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as codemirror from 'codemirror';
+import * as ot from 'ot.js';
 
 declare let global: any;
 declare let require: any;
@@ -8,7 +9,7 @@ const SERVER_RENDERED = (typeof navigator === 'undefined' || global['PREVENT_COD
 
 let cm;
 if (!SERVER_RENDERED) {
-  cm = require('codemirror');
+  cm = new ot.CodeMirrorAdapter(require('codemirror'));
 }
 
 export interface IDefineModeOptions {
