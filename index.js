@@ -62,12 +62,13 @@ Object.defineProperty(exports, '__esModule', {
 exports.UnControlled = exports.Controlled = void 0;
 
 var React = require('react');
+var ot = require('ot');
 
 var SERVER_RENDERED = typeof navigator === 'undefined' || global['PREVENT_CODEMIRROR_RENDER'] === true;
 var cm;
 
 if (!SERVER_RENDERED) {
-  cm = require('codemirror');
+  cm = new ot.CodeMirrorAdapter(require('codemirror'));
 }
 
 var Helper = function() {
