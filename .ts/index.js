@@ -15,6 +15,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UnControlled = exports.Controlled = void 0;
 var React = require("react");
+var ot = require('ot');
 var SERVER_RENDERED = (typeof navigator === 'undefined' || global['PREVENT_CODEMIRROR_RENDER'] === true);
 var cm;
 if (!SERVER_RENDERED) {
@@ -370,9 +371,11 @@ var Controlled = (function (_super) {
             }
         }
         this.editor = cm(this.ref, this.props.options);
+        this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
         this.shared = new Shared(this.editor, this.props);
         this.mirror = cm(function () {
         }, this.props.options);
+        this.mirror.adapter = new ot.CodeMirrorAdapter(this.mirror);
         this.editor.on('electricInput', function () {
             _this.mirror.setHistory(_this.editor.getDoc().getHistory());
         });
@@ -502,6 +505,7 @@ var UnControlled = (function (_super) {
             }
         }
         this.editor = cm(this.ref, this.props.options);
+        this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
         this.shared = new Shared(this.editor, this.props);
         this.editor.on('beforeChange', function (cm, data) {
             if (_this.props.onBeforeChange) {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as codemirror from 'codemirror';
-import * as ot from 'ot.js';
+import * as ot from 'ot';
 
 declare let global: any;
 declare let require: any;
@@ -9,7 +9,7 @@ const SERVER_RENDERED = (typeof navigator === 'undefined' || global['PREVENT_COD
 
 let cm;
 if (!SERVER_RENDERED) {
-  cm = new ot.CodeMirrorAdapter(require('codemirror'));
+  cm = require('codemirror');
 }
 
 export interface IDefineModeOptions {
@@ -519,10 +519,14 @@ export class Controlled extends React.Component<IControlledCodeMirror, any> {
 
     this.editor = cm(this.ref, this.props.options) as codemirror.Editor;
 
+    this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
+
     this.shared = new Shared(this.editor, this.props);
 
     this.mirror = (cm as any)(() => {
     }, this.props.options);
+
+    this.mirror.adapter = new ot.CodeMirrorAdapter(this.mirror);
 
     this.editor.on('electricInput', () => {
       this.mirror.setHistory(this.editor.getDoc().getHistory());
@@ -721,6 +725,8 @@ export class UnControlled extends React.Component<IUnControlledCodeMirror, any> 
     }
 
     this.editor = cm(this.ref, this.props.options) as codemirror.Editor;
+
+    this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
 
     this.shared = new Shared(this.editor, this.props);
 

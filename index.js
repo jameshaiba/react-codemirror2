@@ -68,7 +68,7 @@ var SERVER_RENDERED = typeof navigator === 'undefined' || global['PREVENT_CODEMI
 var cm;
 
 if (!SERVER_RENDERED) {
-  cm = new ot.CodeMirrorAdapter(require('codemirror'));
+  cm = require('codemirror');
 }
 
 var Helper = function() {
@@ -494,8 +494,10 @@ var Controlled = function(_super) {
     }
 
     this.editor = cm(this.ref, this.props.options);
+    this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
     this.shared = new Shared(this.editor, this.props);
     this.mirror = cm(function() {}, this.props.options);
+    this.mirror.adapter = new ot.CodeMirrorAdapter(this.mirror);
     this.editor.on('electricInput', function() {
       _this.mirror.setHistory(_this.editor.getDoc().getHistory());
     });
@@ -671,6 +673,7 @@ var UnControlled = function(_super) {
     }
 
     this.editor = cm(this.ref, this.props.options);
+    this.editor.adapter = new ot.CodeMirrorAdapter(this.editor);
     this.shared = new Shared(this.editor, this.props);
     this.editor.on('beforeChange', function(cm, data) {
       if (_this.props.onBeforeChange) {
